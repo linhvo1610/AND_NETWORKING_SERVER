@@ -6,7 +6,8 @@ const userSchema = new db.mongoose.Schema({
     fullname:{type:String,required:true}
 },{collection:'users'});
 const commentSchema = new db.mongoose.Schema({
-    iduser:{type:db.mongoose.Schema.Types.ObjectId,ref:'usersModel'},
+    id_user:{type:db.mongoose.Schema.Types.ObjectId,ref:'usersModel'},
+    id_comic:{type:db.mongoose.Schema.Types.ObjectId,ref:'comicModel'},
     comment:{type:String,required:true},
     date:{type:String,required:true},
 

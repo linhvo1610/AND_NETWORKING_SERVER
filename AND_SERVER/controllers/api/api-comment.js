@@ -1,21 +1,21 @@
 const MyModel = require('../../models/model')
 
-exports.listUsers = async (req, res, next) => {
+exports.listComments= async (req, res, next) => {
     let dataR = {
         status: 1,
         msg: "ok"
     }
 
     let dieu_kien =null;
-    if(typeof(req.query._id)!='undefined'){
-        let _id =req.query._id;
-        dieu_kien={_id:_id};
+    if(typeof(req.query.name)!='undefined'){
+        let name =req.query.name;
+        dieu_kien={name:name};
         console.log(dieu_kien);
     }
     //code xử lý lấy danh sách
     let list = []
     try {
-        list = await MyModel.usersModel.find(dieu_kien);
+        list = await MyModel.commentModel.find(dieu_kien).populate("id_user").populate("id_comic");
         dataR.data = list;
     }
     catch (err) {
@@ -27,7 +27,7 @@ exports.listUsers = async (req, res, next) => {
     console.log(dataR);
 }
 
-exports.listUsersUP = async (req, res, next) => {
+exports.listCommentUp = async (req, res, next) => {
     let dataR = {
         msg: "list"
     }
@@ -41,7 +41,7 @@ exports.listUsersUP = async (req, res, next) => {
     //code xử lý lấy danh sách
     let list = []
     try {
-        list = await MyModel.usersModel.findById(req.params.iduser);
+        list = await MyModel.commentModel.findById(req.params.idcomment);
         dataR.data = list;
     }
     catch (err) {
@@ -53,7 +53,7 @@ exports.listUsersUP = async (req, res, next) => {
     console.log(dataR);
 }
 
-exports.addUsers =async (req, res, next) => {
+exports.addComment =async (req, res, next) => {
     let dataR = {
         status: 1,
         msg: "ok"
@@ -64,15 +64,16 @@ exports.addUsers =async (req, res, next) => {
 
 
         // tạo đối tượng model 
-        let objUser = new MyModel.usersModel();
-        objUser.email = req.body.email;
-        objUser.username = req.body.username;
-        objUser.password=req.body.password;
-        objUser.fullname=req.body.fullname;
+        let objComment = new MyModel.commentModel();
+        objComment.comment = req.body.comment;
+        objComment.date = new Date();
+        objComment.id_user=req.body.id_user;
+        objComment.id_comic=req.body.id_comic;
+;
 
         
         try{
-            let dataR = await objUser.save();
+            let dataR = await objComment.save();
             
             console.log(dataR);
 
@@ -93,7 +94,7 @@ exports.addUsers =async (req, res, next) => {
 
 }
 
-exports.updateUsers =async (req, res, next) => {
+exports.updateComment =async (req, res, next) => {
     let data = {
         status: 1,
         msg: "update"
@@ -103,7 +104,7 @@ exports.updateUsers =async (req, res, next) => {
 
     
         try{
-            await MyModel.usersModel.updateOne({_id:req.params.iduser},{$set: {username:  req.body.username, password:  req.body.password,fullname: req.body.fullname,email:req.body.email}});
+            await MyModel.commentModel.updateOne({_id:req.params.idcomment},{$set: {comment:  req.body.comment, date:  new Date(),id_user:req.body.id_user,id_comic:req.body.id_comic}});
             console.log(data);
 
             console.log("Đã cập nhật thành công");
@@ -118,20 +119,20 @@ exports.updateUsers =async (req, res, next) => {
 
 }
 
-exports.deleteUsers =async (req, res, next) => {
+exports.deletecomment =async (req, res, next) => {
     let data = {
         status: 1,
         msg: "delete"
     }
 
-    let objUser = await MyModel.usersModel.findById(  req.params.iduser  );
+    let objUser = await MyModel.commentModel.findById(  req.params.idcomment  );
     console.log( objUser);
         
         try{
              
             // update dữ liệu
             // await myModel.spModel.updateOne( {_id:  req.params.idsp},   objSP );
-             await MyModel.usersModel.findByIdAndDelete({_id:req.params.iduser});
+             await MyModel.commentModel.findByIdAndDelete({_id:req.params.idcomment});
 
             console.log("Đã xóa thành công");
         }catch(err){
