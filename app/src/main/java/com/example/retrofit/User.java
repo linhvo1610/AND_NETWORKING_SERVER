@@ -1,2 +1,35 @@
-package com.example.retrofit;public class User {
+package com.example.retrofit;
+
+public class User {
+    private String name;
+    private String craft;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCraft() {
+        return craft;
+    }
+
+    public void setCraft(String craft) {
+        this.craft = craft;
+    }
+
+    public User(String name, String craft) {
+        this.name = name;
+        this.craft = craft;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", craft='" + craft + '\'' +
+                '}';
+    }
 }

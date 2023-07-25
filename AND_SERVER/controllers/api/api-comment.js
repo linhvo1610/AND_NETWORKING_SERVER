@@ -7,15 +7,15 @@ exports.listComments= async (req, res, next) => {
     }
 
     let dieu_kien =null;
-    if(typeof(req.query.name)!='undefined'){
-        let name =req.query.name;
-        dieu_kien={name:name};
+    if(typeof(req.query.id_comic)!='undefined'){
+        let id_comic =req.query.id_comic;
+        dieu_kien={id_comic:id_comic};
         console.log(dieu_kien);
     }
     //code xử lý lấy danh sách
     let list = []
     try {
-        list = await MyModel.commentModel.find(dieu_kien).populate("id_user").populate("id_comic");
+        list = await MyModel.commentModel.find(dieu_kien).populate("id_user");
         dataR.data = list;
     }
     catch (err) {

@@ -1,8 +1,8 @@
 var db= require('./db');
 const userSchema = new db.mongoose.Schema({
-    username:{type:String,required:true},
+    username:{type:String,required:true,unique:true},
     password:{type:String,required:true},
-    email:{type:String,required:true},
+    email:{type:String,required:true,unique:true},
     fullname:{type:String,required:true}
 },{collection:'users'});
 const commentSchema = new db.mongoose.Schema({
